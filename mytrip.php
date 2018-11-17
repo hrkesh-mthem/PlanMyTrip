@@ -3,9 +3,25 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $database = "trip";
-
+session_start();
 $conn = mysqli_connect($servername, $username, $password);
 mysqli_select_db($conn,$database);
+if(isset($_SESSION["USERNAME"])){
+$user_name= $_SESSION["USERNAME"];
+$test=mysqli_query($conn,"select * from login where name='$user_name'");
+$atry=mysqli_affected_rows($conn);
+if($atry==1 && $test)
+{
+    while($rtry = mysqli_fetch_array($test))
+  {
+    $mail=$rtry['email'];
+  }
+}
+}
+else
+{
+  echo "session err";
+}
 ?>
 
 
@@ -21,7 +37,44 @@ mysqli_select_db($conn,$database);
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <style>
-  input[type="radio"]{
+  .autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #e9e9e9; 
+}
+
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
+}
+  .topnav {
+    overflow: hidden;
+    background-color: #1f2e2e;
+}
+.mp1{
+  float: left;
+  width: 200px;
+  font-size: 20px;
+  font-weight: bold;
+  /*padding-bottom: 5px;*/
+}
+.mp2{
+  font-size: 20px;
+} 
+input[type="radio"]{
   appearance: none;
   width: $radioBtn-size;
   height: $radioBtn-size;
@@ -42,11 +95,6 @@ body {
   background: linear-gradient(90deg, #2bc0e4 10%, #eaecc6 90%);
   background-attachment: fixed;
 }
-  .topnav {
-    overflow: hidden;
-    background-color: #1f2e2e;
-}
-
 /* Style the links inside the navigation bar */
 .topnav a {
     float: left;
@@ -171,28 +219,41 @@ body {
    .top-left {
     position: absolute;
     top: 20px;
-    left: 42px;
-	color:#ffffff;
+    left: 22px;
 }
-  
+    .inner {
+  overflow: auto;
+  display: block;
+  height: 400px;
+  border: 3px solid gray;
+}
    .top-left2 {
     position: absolute;
     top: 40px;
-    left: 42px;
-	color:#ffffff;
+    left: 22px;
 }
   .bimg{
 	  background-image: url("drop1.jpg");
 	   background-repeat: no-repeat;
 		background-position: center center;
-		color:#ffffff;
-	   text-shadow: 5px 5px #000000;
+    color:#ffffff;
+     text-shadow: 5px 5px #000000;
   }
   .navbar{
 	  
   }
   .containe {
     padding: 10px;
+}
+.container
+{
+  position: relative;
+}
+.bottom
+{
+   position: absolute;
+   top: 100px;
+   left: 380px;
 }
   .ser{
     width: 170px;
@@ -210,44 +271,33 @@ body {
 .animate {
     animation: animatezoom 0.6s
 }
-.container
-{
-  position: relative;
+#customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
 }
-.bottom
-{
-   position: absolute;
-   top: 100px;
-   left: 380px;
+
+#customers td, #customers th {
+    
+    padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
 }
 /*
 input[type=text]:focus {
     width: 100%;
 }*/
   
-  
-  
-  
-  
-  
-  #stats > .panel.col-md-10 {
-  padding-left: 0;
-  padding-right: 0;
-}
-
-
-
-
-img {
-    border: 2px solid #ffffff;
-    border-radius: 10px;
-    padding: 5px;
-    width: 150px;
-}
-
-img:hover {
-    box-shadow: 0 0 2px 1px rgba(255, 102, 102, 0.5);
-}
   </style>
   
  
@@ -361,75 +411,78 @@ var mail = document.myform1.email.value;
 <div class="jumbotron bimg">
   <div class="container text-center">
     <h1>GO SomeWhere</h1>      
-    <div class="bottom" style="font-size: 30px;color:#ffffff">Mission, Vision and Values</div>
-  </div>
+    <div class="bottom" style="font-size: 30px;color:#ffffff">Welcome <?php echo $mail?></div>
   </div>
 </div>
 
-<div class="topnav">
-  <a class="active" href="">Home</a>
-  <a onclick="document.getElementById('id01').style.display='block'" style="width:auto; cursor:pointer">Make an account</a>
-  <a onclick="document.getElementById('id02').style.display='block'" style="width:auto; cursor:pointer">Login&nbsp;&nbsp;<span class="fa fa-sign-in"></span></a>
-  <ul class="nav navbar-nav navbar-right"><a onclick="document.getElementById('idal').style.display='block'" style="width:auto; cursor:pointer">Admin Login&nbsp;&nbsp;<span class="fa fa-sign-in"</a></ul>
+  <div class="topnav">
+  <a href="home1.php">Home</a>
+  <a class="active" href="mytrip.php">My Trip</a>
+  <a href="wish.php">My Wishlist</a>
+  <a href="myprofile.php">My Profile</a>
+  <a href="home.php">Log Out&nbsp;&nbsp;<span class="glyphicon glyphicon-log-out"></span></a>
+  <div class="search-container">
+    <form autocomplete="off" action="citynew.php" method="post">
+     <div class="autocomplete">
+      <input id="myInput" type="text" placeholder="Search.." name="search">
+      <button type="submit"><i class="fa fa-search"></i></button></div>
+    </form>
+  </div>
 </div>
 
 <div class="container">    
-  <div class="row" id = "result">
-  	
-<?php
+  <div class="row" id = "result" style=\"overflow: auto;\">
+   <fieldset class=\"inner\">
+      <?php 
+            $query = "SELECT * FROM addtrip where name='$user_name' order by id desc";
+            $result = mysqli_query($conn, $query);
 
-   
-	
+            //number of rows
+            $rowCount = mysqli_num_rows($result);
 
-$sql0 = "select state from location";
-$sql1 = "select city from location";
+           // echo "<tr>";
+           //      echo "<td>"."</td>";
+           //      echo "<td>"."</td>";
+           //      echo "<td>"."</td>";
+           //      echo "<td>"."</td>";
+           //      echo "<td>"."</td>";
 
-$sql2= "select pic from location";
-
-
-
-$result0 = mysqli_query($conn,$sql0);
-$result = mysqli_query($conn,$sql1);
-$result2 = mysqli_query($conn,$sql2);
-
-if (!$result0 || !$result || !$result2) {
-	echo mysqli_error($conn);
-    printf("Error: %s\n", mysqli_error($conn));
-    exit();
-}
-	
-while(($row0 = mysqli_fetch_array($result0)) && ($row = mysqli_fetch_array($result) ) && ($row1 = mysqli_fetch_array($result2) )){
-	?>
-	
-	
-	
-	
-    <div class="col-sm-4">
-      <div class="panel panel-primary">
-	  <div class="panel-body text col-md-10">
-       
-      <img src="<?=$row1[0]?>" class="img-responsive" style="width:100%;height:250px" alt="Image"></div>
-	  <div class="top-left"><a href="home_page_city.php?var=<?php echo $row[0] ?>" style="color:#FFFFFF;"><?php echo $row[0];?></a></div>
-		 <div class="top-left2"><?php echo $row0[0] ?></div>
-		</div>
-		</div>
-		    
-<?php
-}
-
-
-
-?>
- 
-		
-		
-		
-		
-		
-	
-   
-   
-   </div>
+           //    echo "</tr>";
+            echo "<br><br><br>";
+            if($rowCount > 0){
+               echo '<table id="customers">';
+              echo "<tr><th> </th><th>From</th><th>To</th><th>Tripdate</th><th>Cost</th></tr>";
+               while($row = mysqli_fetch_array($result)) {
+                  $vehicle = $row['vehicle'];
+                  $from = $row['from_'];
+                  $to = $row['to_'];
+                  $tripdate = $row['tripdate'];
+                  $cost = $row['cost'];
+                  echo "<tr><td>";
+                  if($vehicle=='plane'){
+                    echo '<i class="fa fa-plane" style="font-size:20px">';
+                  }
+                  else if($vehicle=='train'){
+                    echo '<i class="fa fa-train" style="font-size:20px"></i>';
+                  }
+                  else if($vehicle=='bus'){
+                    echo '<i class="fa fa-bus" style="font-size:20px"></i>';
+                  }
+                  else if($vehicle=='taxi'){
+                    echo '<i class="fa fa-taxi" style="font-size:20px"></i>';
+                  }
+                  else{
+                    echo '<i class="fa fa-motorcycle" style="font-size:20px"></i>';
+                  }
+                  echo "</td><td>".$from."</td><td>".$to."</td><td>".$tripdate."</td><td>".$cost."</td></tr>";
+                }
+                echo '</table>';
+            }
+            
+            
+            
+      ?>
+   </fieldset>
   </div>
 </div>
 
@@ -569,33 +622,7 @@ while(($row0 = mysqli_fetch_array($result0)) && ($row = mysqli_fetch_array($resu
   </form>
 </div>
 
-<div id="idal" class="modal2">
-  
-  <form class="modal2-content animate" name ='myform1' onsubmit="return validate_l()" action="admin_login.php" method="post" style = "width:55%; height:70%">
-   
 
-    <div class="containe">
-  <h1>Admin Login</h1>
-      <p>Enter the Details.</p>
-      <hr>
-       <span id="s1"><label><b>Admin Name</b></label></span>
-      <input type="text" placeholder="Enter Admin Name" name="uname"  required style = "width:40% ; margin: 10px 0px;"><br>
-
-       <span id="s1"><label><b>Password</b></label></span>
-      <input type="password" placeholder="Enter Password" name="psw" required  style = "width:40% ; margin: 10px 0px;"><br>
-        
-      
-      
-    </div>
-
-    
-    <div>
-       <button type="submit" class="signupbtn" value="submit">Login</button>
-        <button type="button" onclick="document.getElementById('idal').style.display='none'" class="cancelbtn">Cancel</button>
-      </div>
-    
-  </form>
-</div>
 
 
 
@@ -622,6 +649,8 @@ while(($row0 = mysqli_fetch_array($result0)) && ($row = mysqli_fetch_array($resu
 	  <div>
 	     <button type="submit" class="signupbtn" value="submit">Login</button>
         <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
+		
+      <span class="forget">Forgot <a href="#">password?</a></span>
       </div>
     
   </form>
@@ -637,13 +666,12 @@ while(($row0 = mysqli_fetch_array($result0)) && ($row = mysqli_fetch_array($resu
 <script>
 var modal1 = document.getElementById('id01');
 var modal2 = document.getElementById('id02');
-var modalal = document.getElementById('idal');
+
 
 window.onclick = function(event) {
-    if (event.target == modal1 || event.target == modal2 || event.target == modalal) {
+    if (event.target == modal1 || event.target == modal2 ) {
         modal1.style.display = "none";
 		modal2.style.display = "none";
-    modalal.style.display = "none";
     }
 }
 
@@ -683,6 +711,117 @@ $(document).ready(function(){
 });
 
 */
+<?php
+$try = mysqli_query($conn,"select * from location");
+
+//$r = mysqli_fetch_assoc($try);
+$cities=array();
+ while($r = mysqli_fetch_assoc($try)){
+
+//array_push($bloggers,$r['name']);
+$cities[]=$r['city'];
+ }
+ //$bloggers   = rtrim($bloggers,",");
+?>
+//var bloggers=[<?php  $bloggers; ?>];
+function autocomplete(inp, arr) {
+  /*the autocomplete function takes two arguments,
+  the text field element and an array of possible autocompleted values:*/
+  var currentFocus;
+  /*execute a function when someone writes in the text field:*/
+  inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false;}
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+              b.addEventListener("click", function(e) {
+              /*insert the value for the autocomplete text field:*/
+              inp.value = this.getElementsByTagName("input")[0].value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+  });
+  /*execute a function presses a key on the keyboard:*/
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+      }
+  });
+  function addActive(x) {
+    /*a function to classify an item as "active":*/
+    if (!x) return false;
+    /*start by removing the "active" class on all items:*/
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    /*add class "autocomplete-active":*/
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+    /*a function to remove the "active" class from all autocomplete items:*/
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+  function closeAllLists(elmnt) {
+    /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+      x[i].parentNode.removeChild(x[i]);
+    }
+  }
+}
+/*execute a function when someone clicks in the document:*/
+document.addEventListener("click", function (e) {
+    closeAllLists(e.target);
+});
+}
+var cities = <?php echo json_encode($cities);?>;
+autocomplete(document.getElementById("myInput"),cities);
 </script>
 
 

@@ -17,7 +17,7 @@ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
 
 
-if(isset($_FILES['file']['name'])  && isset($_POST['description']) && isset($_POST['city']) && isset($_POST['place']))
+if(isset($_FILES['file']['name']))
 {
 	$desc = $_POST['description'];
 	$city = $_POST['city'];
@@ -56,7 +56,7 @@ $affectedRows3 = mysqli_affected_rows($conn);
 if ($affectedRows3==1 && $sql3){
 						   echo '<script type="text/javascript">
                                              alert("Error inserting into ratings");
-                                                  window.location.href = "admin.html";
+                                                  
                                                           </script>';
 					  }
 					  else
@@ -66,13 +66,13 @@ $affectedRows3i = mysqli_affected_rows($conn);
              if ($affectedRows3i==1 && $sql3i){
                    echo '<script type="text/javascript">
                                              alert("Location Uploaded Sucessfully");
-                                                  window.location.href = "admin.html";
+                                                  
                                                           </script>';
              } else
              {
                 echo '<script type="text/javascript">
                                              alert("Location not Uploaded");
-                                                  window.location.href = "admin.html";
+                                                  
                                                           </script>';
              }
 					  }}
@@ -80,7 +80,7 @@ $affectedRows3i = mysqli_affected_rows($conn);
                               
 		                           echo '<script type="text/javascript">
                                              alert("There is something Wrong While updating.");
-                                                  window.location.href = "admin.html";
+                                                  
                                                           </script>';
 					}
 	
@@ -92,14 +92,14 @@ $affectedRows3i = mysqli_affected_rows($conn);
 						  
 						                 echo '<script type="text/javascript">
                                              alert("Location Uploaded Sucessfully");
-                                                  window.location.href = "admin.html";
+                                                  
                                                           </script>';
 					  }
                        else{
                               
 		                        echo '<script type="text/javascript">
                                              alert("There is something Wrong While uploading.");
-                                                  window.location.href = "admin.html";
+                                                 
                                                           </script>'; 
 					}
 				   
@@ -116,7 +116,7 @@ $affectedRows3i = mysqli_affected_rows($conn);
 			{
 				echo '<script type="text/javascript">
                                             alert("There is was an Error");
-                                                  window.location.href = "admin.html";
+                                                  
                                                           </script>';	
 			}
 		}
@@ -124,16 +124,18 @@ $affectedRows3i = mysqli_affected_rows($conn);
 		{
 			echo '<script type="text/javascript">
                                             alert("File must be jpg/jpeg and must be 2MB or less.");
-                                                  window.location.href = "admin.html";
+                                                  
                                                           </script>';	
 		}
 	}
 	else
 	{
+		
+		echo $desc;
 		echo '<script type="text/javascript">
-                                            alert("Please choose a Profile pic.");
-                                                  window.location.href = "admin.html";
-                                                          </script>';
+                                            alert("Please choose a Pic.");
+                                                  
+                                                          </script>';  
 		
 	}
 

@@ -8,26 +8,12 @@ session_start();
 //$city='mumbai';
 $conn = mysqli_connect($servername, $username, $password);
 mysqli_select_db($conn,$database);
-if(isset($_SESSION["USERNAME"])){
-$user_name=$_SESSION["USERNAME"];
-$search=$_GET['search'];
-$test=mysqli_query($conn,"select * from login where name='$user_name'");
+if(isset($_GET['var'])){
+
+$search=$_GET['var'];
+
 $atry=mysqli_affected_rows($conn);
-if($atry==1 && $test)
-{
-    while($rtry = mysqli_fetch_array($test))
-  {
-    $curr=$rtry['c_location'];
-  }
-}
-}
-else
-{?>
-<script type="text/javascript">
-                       alert("Session erroe");
-                                                  window.location.href = "home1.php";
-                                                          </script>
-<?php }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -48,29 +34,6 @@ else
 <style>
 * {
     box-sizing: border-box;
-}
-.autocomplete {
-  /*the container must be positioned relative:*/
-  position: relative;
-  display: inline-block;
-}
-
-.autocomplete-items div {
-  padding: 10px;
-  cursor: pointer;
-  background-color: #fff; 
-  border-bottom: 1px solid #d4d4d4; 
-}
-
-.autocomplete-items div:hover {
-  /*when hovering an item:*/
-  background-color: #e9e9e9; 
-}
-
-.autocomplete-active {
-  /*when navigating through the items using the arrow keys:*/
-  background-color: DodgerBlue !important; 
-  color: #ffffff; 
 }
 .topnav {
     overflow: hidden;
@@ -166,6 +129,7 @@ else
     background-size: 100% 100%;
     border-radius: 15px;
     cursor: pointer;
+
 }
 .log2 {background-color: #ff0066;} 
 .log2:hover {background-color: #ffffff;}
@@ -185,8 +149,6 @@ else
        <?php } ?>
      background-repeat: no-repeat;
     background-position: center center;
-    color:#ffffff;
-     text-shadow: 5px 5px #000000;
   }
 .para{
 font-size: 20px;
@@ -198,7 +160,7 @@ font-size: 20px;
 }
     .bimg{
     <?php 
-    $s="select * from $city where place='$place'";
+    $s="select * from $search where place='$place'";
     $res=mysqli_query($conn,$s);
     while($row = mysqli_fetch_assoc($res)){
        ?>
@@ -206,6 +168,8 @@ font-size: 20px;
        <?php } ?>
      background-repeat: no-repeat;
     background-position: center center;
+	 color:#ffffff;
+	   text-shadow: 5px 5px #000000;
   }
   .navbar{
     
@@ -397,18 +361,9 @@ button:active{position:relative;top:2px;}*/
 </div>
 
 <div class="topnav">
-  <a href="home1.php">Home</a>
-  <a href="mytrip.php">My Trip</a>
-  <a href="wish.php">My Wishlist</a>
-  <a href="myprofile.php">My Profile</a>
-  <a href="home.php">Log Out&nbsp;&nbsp;<span class="glyphicon glyphicon-log-out"></span></a>
-  <div class="search-container">
-    <form autocomplete="off" action="citynew.php" method="post">
-     <div class="autocomplete">
-      <input id="myInput" type="text" placeholder="Search.." name="search">
-      <button type="submit"><i class="fa fa-search"></i></button></div>
-    </form>
-  </div>
+  <a class="active"><?php echo $search1?></a>
+  <a href="city_pics.php">Back&nbsp;&nbsp;<span class="fa fa-arrow-circle-left"></span></a>
+ 
 </div>
   <?php function distance($lat1, $lon1, $lat2, $lon2, $unit) {
 
@@ -429,20 +384,8 @@ button:active{position:relative;top:2px;}*/
       return round($miles,2);
   }
 }
-//echo distance(21.1702,72.8311,22.3072,73.1812, "K") . " Km<br>";
 ?>
-
-<!-- <div class="distance">
-    <i class="fa fa-info-circle" style="font-size:24px"></i><p class="para">About <?php echo $place1?></p>
-     <?php $s1="select infos from location";
-    $res1=mysqli_query($conn,$s1);
-    while($row1 = mysqli_fetch_assoc($res1)){
-        echo "<div class=\"item\">".$row['infos']."</div>"."</span>";    
-      } ?>
-  </div> -->
-
   <?php
-    //$search="surat";
 
     $sql="select infos from location where city='$search'";
     
@@ -450,7 +393,7 @@ button:active{position:relative;top:2px;}*/
 
    // $city=ucwords($city);
     //$place=ucwords($place);
-    $curr=ucwords($curr);
+   // $curr=ucwords($curr);
     $search=ucwords($search);
 
     if($res->num_rows > 0){
@@ -460,17 +403,6 @@ button:active{position:relative;top:2px;}*/
         echo "<div class=\"item\">".$row['infos']."</div>"."</span>";        
       echo '</div>';
 
-        echo '<div class="distance">';
-     $s2="select * from location where city='$search'";
-    $res2=mysqli_query($conn,$s2);
-    $s3="select * from location where city='$curr'";
-    $res3=mysqli_query($conn,$s3);
-    //echo $res2->num_rows;echo $res3->num_rows;
-    while(($row2 = mysqli_fetch_assoc($res2)) && ($row3 = mysqli_fetch_assoc($res3))){?>
-        <i class="fa fa-plane" style="font-size:24px"></i><p class="para">Distance to <?php echo strtoupper($search)?> from <?php echo strtoupper($curr)?></p>
-      <?php  echo distance($row2['latitude'],$row2['longitude'],$row3['latitude'],$row3['longitude'],"K") . " Km<br>";
-     } 
-          echo '</div>';
         $s11=mysqli_query($conn,"select count(place) as total from $search");
         $affected11 = mysqli_affected_rows($conn);
 if($affected11 && $s11)
@@ -481,34 +413,37 @@ if($affected11 && $s11)
   }
 }
         $s="select place,p_pic from $search";
+		
+		$try ="select p_pic from $search";
+		$test = mysqli_query($conn,$try);
+		
         $res=mysqli_query($conn,$s);
         $af = mysqli_affected_rows($conn);
-        $try ="select p_pic from $search";
-    $test = mysqli_query($conn,$try);
         $i=1;
         if($af>0 && $res){
         while(($row = mysqli_fetch_array($res)) && ($row0 = mysqli_fetch_array($test))){
-         ?> <form action="place.php?p1=<?php echo $row['place']?>&s1=<?php echo $search?>" method="post"><div class="column">
-          <img src="<?=$row0[0]?>" width="300px" height="200px" alt="Image">  
-        
-         <?php 
-          //echo '<img src="data:image/jpeg;base64,'.base64_encode( $row['p_pic'] ).'" width="300px" height="200px" />';
-          echo '<div class="top-left">'.$row['place'].'</div>';
+         ?><div class="column">
+        <?php
+        //  echo '<img src="data:image/jpeg;base64,'.base64_encode( $row['p_pic'] ).'" width="300px" height="200px" />';
+          ?>
+		  <img src="<?=$row0[0]?>" width="300px" height="200px" alt="Image">	
+         <?php
+		 echo '<div class="top-left">'.$row['place'].'</div>';
           echo '<div class="top-left2">'.$search.'</div>';?>
           <?php 
           $pp=$row['place'];
-             $quew=mysqli_query($conn,"select * from wishlist where user='$user_name' and city='$search' and place='$pp'");
+            // $quew=mysqli_query($conn,"select * from wishlist where user='$user_name' and city='$search' and place='$pp'");
              $affectedw = mysqli_affected_rows($conn);
-             if($affectedw == 0 && $quew){
+             if(1){
           ?>
-          <div class="top-left3"><input type="button" class="b1 log1" id="myBtn" value="   " onClick="Javascript:window.location.href = 'added.php?place=<?php echo $row['place']?>&city=<?php echo $search?>';" />&nbsp;&nbsp;<div style="font-size: 22px;display: inline-block;">Add to Wishlist</div></div>
+          <div class="top-left3"><input type="button" class="b1 log1" id="myBtn" value="   " onClick="alert('Make An Account')" />&nbsp;&nbsp;<div style="font-size: 22px;display: inline-block;">Add to Wishlist</div></div>
         <?php } 
         else
           { ?>
                <div class="top-left3"><input type="button" class="b2 log2" id="myBtn" value="   " onClick="Javascript:window.location.href = 'remo.php?place=<?php echo $row['place']?>&city=<?php echo $search?>';" />&nbsp;&nbsp;<div style="font-size: 22px;display: inline-block;">Remove from Wishlist</div></div>
        <?php   }?>
-          <div class="mid" "><button type="submit" class="btn btn-danger" value= "submit">View Trip</button></div>
-          </div></form>
+          <div class="mid" "><button type="submit" class="btn btn-danger" value= "submit" onClick="alert('Make An Account')">View Trip</button></div>
+          </div>
          <?php  //$i++;
       }  
     }
@@ -596,117 +531,7 @@ window.onclick = function(event) {
     }
 }
 
-<?php
-$try = mysqli_query($conn,"select * from location");
 
-//$r = mysqli_fetch_assoc($try);
-$cities=array();
- while($r = mysqli_fetch_assoc($try)){
-
-//array_push($bloggers,$r['name']);
-$cities[]=$r['city'];
- }
- //$bloggers   = rtrim($bloggers,",");
-?>
-//var bloggers=[<?php  $bloggers; ?>];
-function autocomplete(inp, arr) {
-  /*the autocomplete function takes two arguments,
-  the text field element and an array of possible autocompleted values:*/
-  var currentFocus;
-  /*execute a function when someone writes in the text field:*/
-  inp.addEventListener("input", function(e) {
-      var a, b, i, val = this.value;
-      /*close any already open lists of autocompleted values*/
-      closeAllLists();
-      if (!val) { return false;}
-      currentFocus = -1;
-      /*create a DIV element that will contain the items (values):*/
-      a = document.createElement("DIV");
-      a.setAttribute("id", this.id + "autocomplete-list");
-      a.setAttribute("class", "autocomplete-items");
-      /*append the DIV element as a child of the autocomplete container:*/
-      this.parentNode.appendChild(a);
-      /*for each item in the array...*/
-      for (i = 0; i < arr.length; i++) {
-        /*check if the item starts with the same letters as the text field value:*/
-        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-          /*create a DIV element for each matching element:*/
-          b = document.createElement("DIV");
-          /*make the matching letters bold:*/
-          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-          b.innerHTML += arr[i].substr(val.length);
-          /*insert a input field that will hold the current array item's value:*/
-          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-          /*execute a function when someone clicks on the item value (DIV element):*/
-              b.addEventListener("click", function(e) {
-              /*insert the value for the autocomplete text field:*/
-              inp.value = this.getElementsByTagName("input")[0].value;
-              /*close the list of autocompleted values,
-              (or any other open lists of autocompleted values:*/
-              closeAllLists();
-          });
-          a.appendChild(b);
-        }
-      }
-  });
-  /*execute a function presses a key on the keyboard:*/
-  inp.addEventListener("keydown", function(e) {
-      var x = document.getElementById(this.id + "autocomplete-list");
-      if (x) x = x.getElementsByTagName("div");
-      if (e.keyCode == 40) {
-        /*If the arrow DOWN key is pressed,
-        increase the currentFocus variable:*/
-        currentFocus++;
-        /*and and make the current item more visible:*/
-        addActive(x);
-      } else if (e.keyCode == 38) { //up
-        /*If the arrow UP key is pressed,
-        decrease the currentFocus variable:*/
-        currentFocus--;
-        /*and and make the current item more visible:*/
-        addActive(x);
-      } else if (e.keyCode == 13) {
-        /*If the ENTER key is pressed, prevent the form from being submitted,*/
-        e.preventDefault();
-        if (currentFocus > -1) {
-          /*and simulate a click on the "active" item:*/
-          if (x) x[currentFocus].click();
-        }
-      }
-  });
-  function addActive(x) {
-    /*a function to classify an item as "active":*/
-    if (!x) return false;
-    /*start by removing the "active" class on all items:*/
-    removeActive(x);
-    if (currentFocus >= x.length) currentFocus = 0;
-    if (currentFocus < 0) currentFocus = (x.length - 1);
-    /*add class "autocomplete-active":*/
-    x[currentFocus].classList.add("autocomplete-active");
-  }
-  function removeActive(x) {
-    /*a function to remove the "active" class from all autocomplete items:*/
-    for (var i = 0; i < x.length; i++) {
-      x[i].classList.remove("autocomplete-active");
-    }
-  }
-  function closeAllLists(elmnt) {
-    /*close all autocomplete lists in the document,
-    except the one passed as an argument:*/
-    var x = document.getElementsByClassName("autocomplete-items");
-    for (var i = 0; i < x.length; i++) {
-      if (elmnt != x[i] && elmnt != inp) {
-      x[i].parentNode.removeChild(x[i]);
-    }
-  }
-}
-/*execute a function when someone clicks in the document:*/
-document.addEventListener("click", function (e) {
-    closeAllLists(e.target);
-});
-}
-var cities = <?php echo json_encode($cities);?>;
-autocomplete(document.getElementById("myInput"),cities);
 
 
 
@@ -746,3 +571,7 @@ autocomplete(document.getElementById("myInput"),cities);
 
 </body>
 </html>
+
+<?php
+}
+?>

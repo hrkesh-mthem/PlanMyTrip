@@ -50,6 +50,129 @@ else
 <script src="jquery-bar-rating-master/dist/jquery.barrating.min.js" type="text/javascript"></script>
 
   <style>
+  .autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #e9e9e9; 
+}
+
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
+}
+  .modalpp {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 730px; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+.modalpp-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from t
+    border: 1px solid #888;
+    width: 50px; /* Could be more or less, depending on screen size */
+}
+.modaltt {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 730px; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+.modaltt-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from t
+    border: 1px solid #888;
+    width: 50px; /* Could be more or less, depending on screen size */
+}
+.modalbb {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 730px; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+.modalbb-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from t
+    border: 1px solid #888;
+    width: 50px; /* Could be more or less, depending on screen size */
+}
+.modalff {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 730px; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+.modalff-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from t
+    border: 1px solid #888;
+    width: 50px; /* Could be more or less, depending on screen size */
+}
+.modal222 {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 730px; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+.modal222-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from t
+    border: 1px solid #888;
+    width: 50px; /* Could be more or less, depending on screen size */
+}
   .topnav {
     overflow: hidden;
     background-color: #1f2e2e;
@@ -259,6 +382,8 @@ width:500px;
        <?php } ?>
      background-repeat: no-repeat;
     background-position: center center;
+    color:#ffffff;
+     text-shadow: 5px 5px #000000;
   }
   .navbar{
     
@@ -355,9 +480,18 @@ function validateEmail(emailField){
 </div>
 
 <div class="topnav">
-  <a class="active" href="">Place</a>
-  <a href="wish.php">Back</a>
-  <a href="home.php">Log Out</a>
+  <a href="home1.php">Home</a>
+  <a href="mytrip.php">My Trip</a>
+  <a href="wish.php">My Wishlist</a>
+  <a href="myprofile.php">My Profile</a>
+  <a href="home.php">Log Out&nbsp;&nbsp;<span class="glyphicon glyphicon-log-out"></span></a>
+  <div class="search-container">
+    <form autocomplete="off" action="citynew.php" method="post">
+     <div class="autocomplete">
+      <input id="myInput" type="text" placeholder="Search.." name="search">
+      <button type="submit"><i class="fa fa-search"></i></button></div>
+    </form>
+  </div>
 </div>
 <div class="column">
   
@@ -602,7 +736,7 @@ if($affectedRowrra==1 && $sqrra){
             <th> </th>
           </tr>
           <tr>
-            <td><i class="fa fa-plane" style="font-size:20px"></i></td>
+           <td><i class="fa fa-plane" style="font-size:20px"></i></td>
             <td><?php echo $curru;?></td>
             <td><?php echo $place1;?></td>
             <td><?php echo $dist . " Km";?></td>
@@ -618,8 +752,14 @@ if($affectedRowrra==1 && $sqrra){
                 $plane2=round(($plane2*60),0);
                 echo $plane2 . " min";
               }?></td>
+              <td>
+                <?php $pcost=round((5*$dist),0);
+                echo "Rs.".$pcost;
+                ?>
+              </td>
             <td>
-<input type="button" value="Select Trip"  class="btn btn-danger" id="myBtn1" onClick="" /></td>
+<input type="button" value="Select Trip"  class="btn btn-danger" id="myBtn1" onClick="document.getElementById('idpp').style.display='block'" />
+</td>
           </tr>
           <tr>
             <td><i class="fa fa-train" style="font-size:20px"></i></td>
@@ -638,8 +778,13 @@ if($affectedRowrra==1 && $sqrra){
                 $train2=round(($train2*60),0);
                 echo $train2 . " min";
               }?></td>
+              <td>
+                <?php $tcost=round((0.5*$dist),0);
+                echo "Rs.".$tcost;
+                ?>
+              </td>
             <td>
-<input type="button" value="Select Trip"  class="btn btn-danger" id="myBtn1" onClick="" /></td>
+<input type="button" value="Select Trip"  class="btn btn-danger" id="myBtn1" onClick="document.getElementById('idtt').style.display='block'" /></td>
           </tr>
           <tr>
             <td><i class="fa fa-bus" style="font-size:20px"></i></td>
@@ -658,8 +803,13 @@ if($affectedRowrra==1 && $sqrra){
                 $bus2=round(($bus2*60),0);
                 echo $bus2 . " min";
               }?></td>
+              <td>
+                <?php $bcost=round((1.5*$dist),0);
+                echo "Rs.".$bcost;
+                ?>
+              </td>
             <td>
-<input type="button" value="Select Trip"  class="btn btn-danger" id="myBtn1" onClick="" /></td>
+<input type="button" value="Select Trip"  class="btn btn-danger" id="myBtn1" onClick="document.getElementById('idbb').style.display='block'" /></td>
           </tr>
           <tr>
             <td><i class="fa fa-taxi" style="font-size:20px"></i></td>
@@ -678,8 +828,13 @@ if($affectedRowrra==1 && $sqrra){
                 $four2=round(($four2*60),0);
                 echo $four2 . " min";
               }?></td>
+              <td>
+                <?php $fcost=round((2*$dist),0);
+                echo "Rs.".$fcost;
+                ?>
+              </td>
             <td>
-<input type="button" value="Select Trip"  class="btn btn-danger" id="myBtn1" onClick="" /></td>
+<input type="button" value="Select Trip"  class="btn btn-danger" id="myBtn1" onClick="document.getElementById('idff').style.display='block'" /></td>
           </tr>
           <tr>
             <td><i class="fa fa-motorcycle" style="font-size:20px"></i></td>
@@ -698,8 +853,13 @@ if($affectedRowrra==1 && $sqrra){
                 $two2=round(($two2*60),0);
                 echo $two2 . " min";
               }?></td>
+              <td>
+                <?php $t2cost=round((3*$dist),0);
+                echo "Rs.".$t2cost;
+                ?>
+              </td>
             <td>
-<input type="button" value="Select Trip"  class="btn btn-danger" id="myBtn1" onClick="" /></td>
+<input type="button" value="Select Trip"  class="btn btn-danger" id="myBtn1" onClick="document.getElementById('id222').style.display='block'" /></td>
           </tr>
         </table>
   </div>
@@ -763,6 +923,141 @@ $resu = mysqli_query($conn,"select * from revplace where place='$place' order by
     
   </form>
 </div>
+<div id="idff" class="modalff">
+  
+  <form class="modalff-content animate" action="four.php?from=<?php echo $curru?>&to=<?php echo $place1?>&distance=<?php echo $dist?>&hours=<?php echo $four1?>&min=<?php echo $four2?>&city=<?php echo $city?>&cost=<?php echo $fcost?>" method="post" style = "width:55%; height:61%">
+   
+
+    <div class="containe">
+      <div class="mid">
+  <h1>Add this trip</h1>
+      <hr>
+       <span id="s1"><label><b>Select Date</b></label></span>
+      <input type="date" name="date" required style = "width:40% ; margin: 10px 0px;"><br>
+      <br>
+        
+      
+      </div>
+    </div>
+
+    
+    <div>
+      <div class="mid">
+       <button type="submit" class="btn btn-danger" value="submit">Submit</button>
+        <button type="button" onclick="document.getElementById('idff').style.display='none'" class="btn btn-danger">Cancel</button>
+</div>
+      </div>
+    
+  </form>
+</div>
+<div id="idpp" class="modalpp">
+  
+  <form class="modalpp-content animate" action="plane.php?from=<?php echo $curru?>&to=<?php echo $place1?>&distance=<?php echo $dist?>&hours=<?php echo $plane1?>&min=<?php echo $plane2?>&city=<?php echo $city?>&cost=<?php echo $pcost?>" method="post" style = "width:55%; height:61%">
+   
+
+    <div class="containe">
+      <div class="mid">
+  <h1>Add this trip</h1>
+      <hr>
+       <span id="s1"><label><b>Select Date</b></label></span>
+      <input type="date" name="date" required style = "width:40% ; margin: 10px 0px;"><br>
+      <br>
+        
+      
+      </div>
+    </div>
+
+    
+    <div>
+      <div class="mid">
+       <button type="submit" class="btn btn-danger" value="submit">Submit</button>
+        <button type="button" onclick="document.getElementById('idpp').style.display='none'" class="btn btn-danger">Cancel</button>
+</div>
+      </div>
+    
+  </form>
+</div>
+<div id="id222" class="modal222">
+  
+  <form class="modal222-content animate" action="two.php?from=<?php echo $curru?>&to=<?php echo $place1?>&distance=<?php echo $dist?>&hours=<?php echo $two1?>&min=<?php echo $two2?>&city=<?php echo $city?>&cost=<?php echo $t2cost?>" method="post" style = "width:55%; height:61%">
+   
+
+    <div class="containe">
+      <div class="mid">
+  <h1>Add this trip</h1>
+      <hr>
+       <span id="s1"><label><b>Select Date</b></label></span>
+      <input type="date" name="date" required style = "width:40% ; margin: 10px 0px;"><br>
+      <br>
+        
+      
+      </div>
+    </div>
+
+    
+    <div>
+      <div class="mid">
+       <button type="submit" class="btn btn-danger" value="submit">Submit</button>
+        <button type="button" onclick="document.getElementById('id222').style.display='none'" class="btn btn-danger">Cancel</button>
+</div>
+      </div>
+    
+  </form>
+</div>
+<div id="idbb" class="modalbb">
+  
+  <form class="modalbb-content animate" action="bus.php?from=<?php echo $curru?>&to=<?php echo $place1?>&distance=<?php echo $dist?>&hours=<?php echo $bus1?>&min=<?php echo $bus2?>&city=<?php echo $city?>&cost=<?php echo $bcost?>" method="post" style = "width:55%; height:61%">
+   
+
+    <div class="containe">
+      <div class="mid">
+  <h1>Add this trip</h1>
+      <hr>
+       <span id="s1"><label><b>Select Date</b></label></span>
+      <input type="date" name="date" required style = "width:40% ; margin: 10px 0px;"><br>
+      <br>
+        
+      
+      </div>
+    </div>
+
+    
+    <div>
+      <div class="mid">
+       <button type="submit" class="btn btn-danger" value="submit">Submit</button>
+        <button type="button" onclick="document.getElementById('idbb').style.display='none'" class="btn btn-danger">Cancel</button>
+</div>
+      </div>
+    
+  </form>
+</div>
+<div id="idtt" class="modaltt">
+  
+  <form class="modaltt-content animate" action="train.php?from=<?php echo $curru?>&to=<?php echo $place1?>&distance=<?php echo $dist?>&hours=<?php echo $train1?>&min=<?php echo $train2?>&city=<?php echo $city?>&cost=<?php echo $tcost?>" method="post" style = "width:55%; height:61%">
+   
+
+    <div class="containe">
+      <div class="mid">
+  <h1>Add this trip</h1>
+      <hr>
+       <span id="s1"><label><b>Select Date</b></label></span>
+      <input type="date" name="date" required style = "width:40% ; margin: 10px 0px;"><br>
+      <br>
+        
+      
+      </div>
+    </div>
+
+    
+    <div>
+      <div class="mid">
+       <button type="submit" class="btn btn-danger" value="submit">Submit</button>
+        <button type="button" onclick="document.getElementById('idtt').style.display='none'" class="btn btn-danger">Cancel</button>
+</div>
+      </div>
+    
+  </form>
+</div>
 <footer class="container-fluid text-center">
   <p>Plan Your Event Now!!!</p>  
   <form class="form-inline">Visit Us
@@ -774,15 +1069,159 @@ $resu = mysqli_query($conn,"select * from revplace where place='$place' order by
 var modal1 = document.getElementById('id01');
 var modal2 = document.getElementById('id02');
 var modalm = document.getElementById('idm');
-
-
+var modalpp = document.getElementById('idpp');
+var modaltt = document.getElementById('idtt');
+var modalbb = document.getElementById('idbb');
+var modalff = document.getElementById('idff');
+var modal222 = document.getElementById('id222');
 window.onclick = function(event) {
-    if (event.target == modal1 || event.target == modal2 || event.target==modalm) {
+    if (event.target == modal1 || event.target == modal2 || event.target==modalm || event.target == modalpp || event.target == modaltt || event.target == modalbb || event.target == modalff || event.target == modal222) {
         modal1.style.display = "none";
     modal2.style.display = "none";
     modalm.style.display = "none";
+    modalpp.style.display = "none";
+    modaltt.style.display = "none";
+    modalbb.style.display = "none";
+    modalff.style.display = "none";
+    modal222.style.display = "none";
     }
-}/*
+}
+<?php
+$try = mysqli_query($conn,"select * from location");
+
+//$r = mysqli_fetch_assoc($try);
+$cities=array();
+ while($r = mysqli_fetch_assoc($try)){
+
+//array_push($bloggers,$r['name']);
+$cities[]=$r['city'];
+ }
+ //$bloggers   = rtrim($bloggers,",");
+?>
+//var bloggers=[<?php  $bloggers; ?>];
+function autocomplete(inp, arr) {
+  /*the autocomplete function takes two arguments,
+  the text field element and an array of possible autocompleted values:*/
+  var currentFocus;
+  /*execute a function when someone writes in the text field:*/
+  inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false;}
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+              b.addEventListener("click", function(e) {
+              /*insert the value for the autocomplete text field:*/
+              inp.value = this.getElementsByTagName("input")[0].value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+  });
+  /*execute a function presses a key on the keyboard:*/
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+      }
+  });
+  function addActive(x) {
+    /*a function to classify an item as "active":*/
+    if (!x) return false;
+    /*start by removing the "active" class on all items:*/
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    /*add class "autocomplete-active":*/
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+    /*a function to remove the "active" class from all autocomplete items:*/
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+  function closeAllLists(elmnt) {
+    /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+      x[i].parentNode.removeChild(x[i]);
+    }
+  }
+}
+/*execute a function when someone clicks in the document:*/
+document.addEventListener("click", function (e) {
+    closeAllLists(e.target);
+});
+}
+var cities = <?php echo json_encode($cities);?>;
+autocomplete(document.getElementById("myInput"),cities);
+
+document.getElementById("datepickericon").onclick = function(e){
+    document.getElementById("calendar").focus();
+    // You could write code to toggle this
+}
+function modelWindow(page) {
+    var $dialog = $('<div id="dialog" style="text-align:center;"></div>')
+        .html('<iframe src="' + page + '" />')
+        .dialog({
+        autoOpen: false,
+        modal: true,
+        height: 250,
+        width: 400,
+        title: "Modal Window",
+        open: function () {
+            jQuery('body').on('click', '.ui-widget-overlay', function () {
+                $('#dialog').dialog('close');
+            });
+        }
+    });
+    $dialog.dialog('open');
+}
+
+/*
+
 $(function() {
  $('.rating').barrating({
   theme: 'fontawesome-stars',

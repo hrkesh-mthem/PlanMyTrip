@@ -45,12 +45,42 @@ else
   <script src="jquery.js" type="text/javascript"></script>
 <script src="jquery-bar-rating-master/dist/jquery.barrating.min.js" type="text/javascript"></script>
 <style>
-* {
-    box-sizing: border-box;
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #e9e9e9; 
+}
+
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
 }
 .topnav {
     overflow: hidden;
     background-color: #1f2e2e;
+}
+.container
+{
+  position: relative;
+}
+.bottom
+{
+   position: absolute;
+   top: 100px;
+   left: 380px;
 }
 
 /* Style the links inside the navigation bar */
@@ -152,9 +182,12 @@ else
     
 }
   .bimg{
-    background-image: url("drop.jpg");
+    background-image: url("drop1.jpg");
      background-repeat: no-repeat;
     background-position: center center;
+	
+		color:#ffffff;
+	   text-shadow: 5px 5px #000000;
   }
 .para{
 font-size: 20px;
@@ -359,15 +392,22 @@ button:active{position:relative;top:2px;}*/
   <div class="jumbotron bimg">
   <div class="container text-center">
     <h1>GO SomeWhere</h1>      
-    <p>Welcome <?php echo $mail?></p>
-    <p>Your Wishlist</p>
+    <div class="bottom" style="font-size: 30px;color:#ffffff">Welcome <?php echo $mail?></div>
   </div>
 </div>
-
 <div class="topnav">
-  <a class="active" href="">Wishlist</a>
-  <a href="home1.php">Back</a>
-  <a href="home.php">Log Out</a>
+  <a href="home1.php">Home</a>
+  <a href="mytrip.php">My Trip</a>
+  <a class="active" href="wish.php">My Wishlist</a>
+  <a href="myprofile.php">My Profile</a>
+  <a href="home.php">Log Out&nbsp;&nbsp;<span class="glyphicon glyphicon-log-out"></span></a>
+  <div class="search-container">
+    <form autocomplete="off" action="citynew.php" method="post">
+     <div class="autocomplete">
+      <input id="myInput" type="text" placeholder="Search.." name="search">
+      <button type="submit"><i class="fa fa-search"></i></button></div>
+    </form>
+  </div>
 </div>
   <?php function distance($lat1, $lon1, $lat2, $lon2, $unit) {
 
@@ -411,15 +451,18 @@ button:active{position:relative;top:2px;}*/
           $pppp=$row['place'];
                     $quuuu=mysqli_query($conn,"select p_pic,pic_name from $cccc where place='$pppp'");
           $arrrr=mysqli_affected_rows($conn);
+          $try ="select p_pic from $cccc where place='$pppp'";
+    $test = mysqli_query($conn,$try);
           if($arrrr==1 && $quuuu)
           {
-            while($row11=mysqli_fetch_array($quuuu))
+            while(($row11=mysqli_fetch_array($quuuu))  && ($row0 = mysqli_fetch_array($test)))
 {
           //////////////////
          ?>
 <form action="place1.php?p1=<?php echo $row['place']?>&s1=<?php echo $cccc?>" method="post"><div class="column">
+  <img src="<?=$row0[0]?>" width="300px" height="200px" alt="Image">
          <?php 
-          echo '<img src="data:image/jpeg;base64,'.base64_encode( $row11['p_pic'] ).'" width="300px" height="200px" />';
+          //echo '<img src="data:image/jpeg;base64,'.base64_encode( $row11['p_pic'] ).'" width="300px" height="200px" />';
           echo '<div class="top-left">'.$row['place'].'</div>';
           echo '<div class="top-left2">'.$cccc.'</div>';?>
           <?php 
@@ -522,7 +565,117 @@ window.onclick = function(event) {
     }
 }
 
+<?php
+$try = mysqli_query($conn,"select * from location");
 
+//$r = mysqli_fetch_assoc($try);
+$cities=array();
+ while($r = mysqli_fetch_assoc($try)){
+
+//array_push($bloggers,$r['name']);
+$cities[]=$r['city'];
+ }
+ //$bloggers   = rtrim($bloggers,",");
+?>
+//var bloggers=[<?php  $bloggers; ?>];
+function autocomplete(inp, arr) {
+  /*the autocomplete function takes two arguments,
+  the text field element and an array of possible autocompleted values:*/
+  var currentFocus;
+  /*execute a function when someone writes in the text field:*/
+  inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false;}
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+              b.addEventListener("click", function(e) {
+              /*insert the value for the autocomplete text field:*/
+              inp.value = this.getElementsByTagName("input")[0].value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+  });
+  /*execute a function presses a key on the keyboard:*/
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+      }
+  });
+  function addActive(x) {
+    /*a function to classify an item as "active":*/
+    if (!x) return false;
+    /*start by removing the "active" class on all items:*/
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    /*add class "autocomplete-active":*/
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+    /*a function to remove the "active" class from all autocomplete items:*/
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+  function closeAllLists(elmnt) {
+    /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+      x[i].parentNode.removeChild(x[i]);
+    }
+  }
+}
+/*execute a function when someone clicks in the document:*/
+document.addEventListener("click", function (e) {
+    closeAllLists(e.target);
+});
+}
+var cities = <?php echo json_encode($cities);?>;
+autocomplete(document.getElementById("myInput"),cities);
 
 
 

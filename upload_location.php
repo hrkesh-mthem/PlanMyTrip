@@ -86,15 +86,15 @@ if(isset($_FILES['file']['name'])  && isset($_POST['country']) && isset($_POST['
     
 		                              echo '<script type="text/javascript">
                                              alert("Location Uploaded Sucessfully");
-                                                  window.location.href = "admin.html";
+                                                  
                                                           </script>';
 					  }
                        else{
-                              
-		                              echo '<script type="text/javascript">
+                              echo mysqli_error($conn);
+		                             echo '<script type="text/javascript">
                                              alert("There is something Wrong While updating.");
-                                                  window.location.href = "admin.html";
-                                                          </script>';
+                                                  
+                                                          </script>';  
 					}
 
 				
@@ -140,7 +140,7 @@ if(isset($_FILES['file']['name'])  && isset($_POST['country']) && isset($_POST['
     
 		                              echo '<script type="text/javascript">
                                              alert("Location Uploaded Sucessfully");
-                                                  window.location.href = "admin.html";
+                                                  
                                                           </script>';
 					  }
                                        
@@ -148,7 +148,7 @@ if(isset($_FILES['file']['name'])  && isset($_POST['country']) && isset($_POST['
                               
 		                              echo '<script type="text/javascript">
                                              alert("There is something Wrong While updating.");
-                                                  window.location.href = "admin.html";
+                                                  
                                                           </script>';
 					}
 		}
@@ -163,7 +163,7 @@ if(isset($_FILES['file']['name'])  && isset($_POST['country']) && isset($_POST['
 			{
 				echo '<script type="text/javascript">
                                             alert("There is was an Error");
-                                                  window.location.href = "admin.html";
+                                                  
                                                           </script>';	
 			}
 		}
@@ -171,7 +171,7 @@ if(isset($_FILES['file']['name'])  && isset($_POST['country']) && isset($_POST['
 		{
 			echo '<script type="text/javascript">
                                             alert("File must be jpg/jpeg and must be 2MB or less.");
-                                                  window.location.href = "admin.html";
+                                                  
                                                           </script>';	
 		}
 	}
@@ -179,7 +179,7 @@ if(isset($_FILES['file']['name'])  && isset($_POST['country']) && isset($_POST['
 	{
 		echo '<script type="text/javascript">
                                             alert("Please choose a Profile pic.");
-                                                  window.location.href = "admin.html";
+                                                  
                                                           </script>';
 		
 	}
